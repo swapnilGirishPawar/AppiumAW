@@ -24,7 +24,7 @@ public class Base {
 
     Properties props = new Properties();
     public void propertiesReader() throws IOException {
-        file = Files.newInputStream(Paths.get("src/test/resources/ConfigProperties/config.properties"));
+        file = Files.newInputStream(Paths.get("src/test/resources/Properties/config.properties"));
         props.load(file);
     }
 
