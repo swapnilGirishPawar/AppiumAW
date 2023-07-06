@@ -1,29 +1,45 @@
 package StepDefinations;
 
-import Pages.CartPage;
 import Pages.CatalogPage;
+import Pages.LogInPage;
+import Pages.MenuPage;
 import io.cucumber.java.en.*;
 
 public class LoginSteps {
-    Base base = new Base();
-    CatalogPage catalogPage = new CatalogPage();
-    CartPage cartPage = new CartPage();
+    private Base base;
+    MenuPage menuPage = new MenuPage(Base.driver);
+    CatalogPage catalogPage = new CatalogPage(Base.driver);
+    LogInPage loginPage = new LogInPage(Base.driver);
 
-    @Given("User is on Cataloge page")
-    public void user_is_on_cataloge_page() {
-
-        catalogPage.userOnCatalogPage();
+    @When("user clicks on Menu button")
+    public void user_clicks_on_menu_button() throws InterruptedException {
+        catalogPage.clickOnMenuButton();
     }
 
-    @When("user clicks on Cart button")
-    public void user_clicks_on_cart_button() {
-        catalogPage.clickOnCartButton();
+    @When("user clicks on Log In button")
+    public void user_clicks_on_log_in_button() throws InterruptedException {
+        menuPage.clickOnLogInTab();
     }
 
-    @Then("user lands on cart page")
-    public void user_lands_on_cart_page() {
-        cartPage.userOnCartPage();
-        System.out.println("Done");
+    @When("user enters username and password")
+    public void user_enters_username_and_password() {
+        loginPage.enterUserNameField(Base.props.getProperty("username"));
+        loginPage.enterPasswordField(Base.props.getProperty("password"));
+    }
+
+    @When("user clicks on Login button")
+    public void user_clicks_on_login_button() throws InterruptedException {
+        loginPage.clickOnLoginButton();
+    }
+
+    @When("user clicks on Log Out button")
+    public void user_clicks_on_log_out_button() throws InterruptedException {
+        menuPage.clickOnLogOutTab();
+    }
+
+    @When("user clicks on Logout popup")
+    public void user_clicks_on_logout_popup() {
+        menuPage.clickOnLogOutPopup();
     }
 
 }

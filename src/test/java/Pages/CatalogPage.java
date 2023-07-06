@@ -1,6 +1,7 @@
 package Pages;
 
 import StepDefinations.Base;
+import io.appium.java_client.ios.IOSDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -8,23 +9,31 @@ import org.openqa.selenium.WebElement;
 import javax.swing.text.Element;
 
 public class CatalogPage extends Base {
-    private final By sortButton = By.xpath("//XCUIElementTypeOther[@name='sort button']");
-    private final By pageTitle = By.xpath("//XCUIElementTypeStaticText[@name='Products']");
-    private final By cartButton = By.xpath("//XCUIElementTypeButton[@name='tab bar option cart']");
-    private final By menuButton = By.xpath("//XCUIElementTypeButton[@name='tab bar option menu']");
+    private final By sortButton = By.xpath(props.getProperty("sortButton"));
+    private final By pageTitle = By.xpath(props.getProperty("pageTitle"));
+    private final By cartButton = By.xpath(props.getProperty("cartButton"));
+    private final By menuButton = By.xpath(props.getProperty("menuButton"));
 
-    public void clickOnSortButton(){
-        driver.findElement(sortButton).sendKeys(Keys.ENTER);
+    public void clickOnSortButton() throws InterruptedException {
+        CommonMethods.clickOnElement(sortButton);
     }
-    public void clickOnCartButton(){
-        driver.findElement(cartButton).sendKeys(Keys.ENTER);
+    public void clickOnCartButton() throws InterruptedException {
+        CommonMethods.clickOnElement(cartButton);
     }
-    public void clickOnMenuButton(){
-        driver.findElement(menuButton).sendKeys(Keys.ENTER);
+    public void clickOnMenuButton() throws InterruptedException {
+        if(driver.findElement(menuButton).isDisplayed()) {
+            System.out.println("YesYesYesYes");
+            CommonMethods.clickOnElement(menuButton);
+        }
+        else System.out.println("NoNoNoNO");
     }
     public void userOnCatalogPage(){
-    if(driver.findElement(pageTitle).isDisplayed()){
-        System.out.println("user is on catalog page");
+        if(driver.findElement(pageTitle).isDisplayed()){
+            System.out.println("user is on catalog page");
+        }
     }
+
+    public CatalogPage(IOSDriver driver){
+        Base.driver = driver;
     }
 }

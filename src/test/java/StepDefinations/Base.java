@@ -22,17 +22,25 @@ public class Base {
     public static InputStream file;
     public static IOSDriver driver;
     public AppiumDriverLocalService service;
-    Properties props = new Properties();
-    public void propertiesReader() throws IOException {
-        file = Files.newInputStream(Paths.get("src/test/resources/Properties/config.properties"));
+    protected static Properties props = new Properties();
+
+    public static void fileLoader(String filePath) throws IOException {
+        file = Files.newInputStream(Paths.get(filePath));
         props.load(file);
     }
+    public static void configPropertiesReader() throws IOException {
+        fileLoader("src/test/resources/Properties/config.properties");
+        fileLoader("src/test/resources/Properties/CatalogPageLocators.properties");
+        fileLoader("src/test/resources/Properties/CartPageLocators.properties");
+        fileLoader("src/test/resources/Properties/MenuPageLocators.properties");
+        fileLoader("src/test/resources/Properties/LogInPageLocators.properties");
+    }
+
 
     @Before
     public void launchApplication() throws IOException, InterruptedException {
-        service = startServer();
-
-        propertiesReader();
+//        service = startServer();
+        configPropertiesReader();
         String automationName = props.getProperty("automationName");
         String platformName = props.getProperty("platformName");
         String deviceName = props.getProperty("deviceName");
@@ -41,7 +49,7 @@ public class Base {
         String appiumUrl = props.getProperty("appiumUrl");
 
         if(deviceType.equalsIgnoreCase("Simulator") && platformName.equalsIgnoreCase("iOS")){
-            StartEmulator();
+//            StartEmulator();
             XCUITestOptions options =new XCUITestOptions();
             options.setDeviceName(deviceName);
             options.setPlatformName(platformName);
@@ -77,50 +85,48 @@ public class Base {
     @After // execute after each scenario
     public void afterMethod() {
         driver.terminateApp("com.saucelabs.mydemoapp.rn");
-        service.stop();
         System.out.println("App terminated successfully");
     }
 
-    public static void StartEmulator() throws IOException, InterruptedException
-    {
-        Runtime.getRuntime().exec(System.getProperty("user.dir")+"/Library/Developer/CoreSimulator/Devices/3566F5C1-A152-409F-BEA1-147905D384D0");
-        Thread.sleep(15000);
-
-    }
-
-
-    public AppiumDriverLocalService startServer()
-    {
-        Boolean flag = checkIfServerIsRunning(4723);
-        if (!flag)
-        {
-            service = AppiumDriverLocalService.buildService(new AppiumServiceBuilder()
-                    .usingDriverExecutable(new File("/usr/local/bin/node"))
-                    .withAppiumJS(new File("/Users/swapnil/node_modules/appium/build/lib/main.js"))
-                    .withIPAddress("127.0.0.1").usingPort(4723));
-            service.start();
-        }
-        return service;
-    }
+//    public static void StartEmulator() throws IOException, InterruptedException
+//    {
+//        Runtime.getRuntime().exec(System.getProperty("user.dir")+"/Library/Developer/CoreSimulator/Devices/3566F5C1-A152-409F-BEA1-147905D384D0");
+//        Thread.sleep(15000);
+//    }
 
 
-    public static Boolean checkIfServerIsRunning(int port)
-    {
-        boolean isServerRunning=false;
-        ServerSocket serversocket;
-        try{
-            serversocket = new ServerSocket(port);
-            serversocket.close();
-        }
-        catch(IOException e)
-        {
-            isServerRunning = true;
-        }
-        finally {
-            serversocket=null;
-        }
-        return isServerRunning;
-    }
+//    public AppiumDriverLocalService startServer()
+//    {
+//        Boolean flag = checkIfServerIsRunning(4723);
+//        if (!flag)
+//        {
+//            service = AppiumDriverLocalService.buildService(new AppiumServiceBuilder()
+//                    .usingDriverExecutable(new File("/usr/local/bin/node"))
+//                    .withAppiumJS(new File("/Users/swapnil/node_modules/appium/build/lib/main.js"))
+//                    .withIPAddress("127.0.0.1").usingPort(4723));
+//            service.start();
+//        }
+//        return service;
+//    }
+
+
+//    public static Boolean checkIfServerIsRunning(int port)
+//    {
+//        boolean isServerRunning=false;
+//        ServerSocket serversocket;
+//        try{
+//            serversocket = new ServerSocket(port);
+//            serversocket.close();
+//        }
+//        catch(IOException e)
+//        {
+//            isServerRunning = true;
+//        }
+//        finally {
+//            serversocket=null;
+//        }
+//        return isServerRunning;
+//    }
 
 
 }
