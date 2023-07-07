@@ -28,7 +28,7 @@ public class Base {
         props.load(file);
     }
     public static void configPropertiesReader() throws IOException {
-        fileLoader("src/test/resources/Properties/config.properties");
+        fileLoader("src/test/resources/Properties/Config.properties");
         fileLoader("src/test/resources/Properties/CatalogPageLocators.properties");
         fileLoader("src/test/resources/Properties/CartPageLocators.properties");
         fileLoader("src/test/resources/Properties/MenuPageLocators.properties");

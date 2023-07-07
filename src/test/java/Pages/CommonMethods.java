@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.HashMap;
 
 public class CommonMethods extends Base {
     public static  void clickOnElement(By element){
@@ -24,10 +25,14 @@ public class CommonMethods extends Base {
     public static void swipeByCount(){
 
     }
-    public static void swipeUtilElementVisible(){
-
+    public static void swipeUtilElementVisible( String attribute, String typeOfAttribute){
+        HashMap<String, Object> scrollObject = new HashMap<>();
+        scrollObject.put("direction", "down");
+        scrollObject.put(typeOfAttribute, attribute);
+        driver.executeScript("mobile:scroll", scrollObject);
+        driver.findElement(By.id(attribute));
     }
-    public static void swipeUtilTextVisible(){
+    public static void swipeUtilTextVisible(String text){
 
     }
 

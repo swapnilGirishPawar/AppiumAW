@@ -14,11 +14,9 @@ public class LogInPage extends Base {
         CommonMethods.clickOnElement(LogInLogInButton);
     }
     public void enterUserNameField(String username){
-        CommonMethods.waitForTextVisibility(LogInUsernameField);
         CommonMethods.enterText(username, LogInUsernameField);
     }
     public void enterPasswordField(String username){
-        CommonMethods.waitForTextVisibility(LogInPasswordField);
         CommonMethods.enterText(username, LogInPasswordField);
     }
     public void clickOnLogOutSuccessfulPopup() {
