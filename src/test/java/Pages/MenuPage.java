@@ -2,6 +2,7 @@ package Pages;
 
 import StepDefinations.Base;
 import io.appium.java_client.ios.IOSDriver;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 
 public class MenuPage extends Base {
@@ -10,6 +11,8 @@ public class MenuPage extends Base {
     private final By MenuResetButton = By.xpath(props.getProperty("MenuResetAppStateButton"));
     private final By MenuCloseButton = By.xpath(props.getProperty("MenuCrossButton"));
     private final By MenuAboutButton = By.xpath(props.getProperty("MenuAboutButton"));
+    private final  By MenuLogoutPopUp = By.xpath(props.getProperty("MenuLogoutPopUp"));
+
 
     public void clickOnLogInTab() throws InterruptedException {
         CommonMethods.waitForTextVisibility(MenuLogInButton);
@@ -30,9 +33,10 @@ public class MenuPage extends Base {
     }
 
     public void clickOnLogOutPopup(){
-        System.out.println("here");
+        CommonMethods.clickOnElement(MenuLogoutPopUp);
     }
     public MenuPage(IOSDriver driver){
         Base.driver = driver;
     }
+
 }

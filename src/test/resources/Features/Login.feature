@@ -13,4 +13,4 @@ Feature: verify user able to login and logout in application
     When user clicks on Menu button
     And user clicks on Log Out button
     And user clicks on Logout popup
-    Then User is on Cataloge page
+    Then User is on login page

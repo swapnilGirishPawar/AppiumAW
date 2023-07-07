@@ -9,13 +9,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class CommonMethods extends Base {
-    public static  void clickOnElement(By element) throws InterruptedException {
-        Thread.sleep(2000);
-        boolean status = driver.findElement(element).isDisplayed();
-        if(status){
-            System.out.println("------------------------"+status+"------------------------");
-            driver.findElement(element).sendKeys(Keys.ENTER);
-        }
+    public static  void clickOnElement(By element){
+        driver.findElement(element).click();
     }
 
     public static void enterText(String text, By element){

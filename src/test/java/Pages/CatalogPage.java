@@ -21,11 +21,7 @@ public class CatalogPage extends Base {
         CommonMethods.clickOnElement(cartButton);
     }
     public void clickOnMenuButton() throws InterruptedException {
-        if(driver.findElement(menuButton).isDisplayed()) {
-            System.out.println("YesYesYesYes");
-            CommonMethods.clickOnElement(menuButton);
-        }
-        else System.out.println("NoNoNoNO");
+        CommonMethods.clickOnElement(menuButton);
     }
     public void userOnCatalogPage(){
         if(driver.findElement(pageTitle).isDisplayed()){

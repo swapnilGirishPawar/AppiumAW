@@ -18,6 +18,7 @@ public class LoginSteps {
 
     @When("user clicks on Log In button")
     public void user_clicks_on_log_in_button() throws InterruptedException {
+        Thread.sleep(3000);
         menuPage.clickOnLogInTab();
     }
 
@@ -40,6 +41,12 @@ public class LoginSteps {
     @When("user clicks on Logout popup")
     public void user_clicks_on_logout_popup() {
         menuPage.clickOnLogOutPopup();
+        loginPage.clickOnLogOutSuccessfulPopup();
     }
 
+    @Then("User is on login page")
+    public void userIsOnLoginPage() {
+        loginPage.userIsOnLoginPage();
+
+    }
 }
