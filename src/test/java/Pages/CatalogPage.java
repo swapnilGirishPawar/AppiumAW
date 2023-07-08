@@ -1,12 +1,9 @@
 package Pages;
 
 import StepDefinations.Base;
+import Utils.CommonMethods;
 import io.appium.java_client.ios.IOSDriver;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebElement;
-
-import javax.swing.text.Element;
 
 public class CatalogPage extends Base {
     private final By sortButton = By.xpath(props.getProperty("sortButton"));
@@ -19,13 +16,15 @@ public class CatalogPage extends Base {
     }
     public void clickOnCartButton() throws InterruptedException {
         CommonMethods.clickOnElement(cartButton);
+        CommonMethods.addLogToReport("Clicked On Cart Button");
     }
     public void clickOnMenuButton() throws InterruptedException {
         CommonMethods.clickOnElement(menuButton);
+        CommonMethods.addLogToReport("Clicked On Menu Button");
     }
     public void userOnCatalogPage(){
         if(driver.findElement(pageTitle).isDisplayed()){
-            System.out.println("user is on catalog page");
+            CommonMethods.addLogToReport("user is on catalog page");
         }
     }
 

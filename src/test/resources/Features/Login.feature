@@ -1,5 +1,5 @@
 Feature: verify user able to login and logout in application
-
+  @Smoke
   Scenario: validate login functionality
     Given User is on Cataloge page
     When user clicks on Menu button
