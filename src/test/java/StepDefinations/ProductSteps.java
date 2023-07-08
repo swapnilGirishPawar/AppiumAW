@@ -1,36 +1,47 @@
 package StepDefinations;
 
+import Pages.CartPage;
+import Pages.CatalogPage;
+import Pages.ProductPage;
+import Utils.CommonMethods;
 import io.cucumber.java.en.*;
+import org.openqa.selenium.By;
 
 public class ProductSteps {
+    CatalogPage catalogPage = new CatalogPage(Base.driver);
+    ProductPage productPage = new ProductPage(Base.driver);
+    CartPage cartPage = new CartPage(Base.driver);
     @When("User navigates to the product")
     public void user_navigates_to_the_product() {
-
+        // swipe till the product
+        catalogPage.navigateTillProduct();
     }
 
     @When("user clicks on the product")
-    public void user_clicks_on_the_product() {
-
+    public void user_clicks_on_the_product() throws InterruptedException {
+        CatalogPage.clickOnProduct((Base.props.getProperty("productNumber6")));
+        Thread.sleep(10000);
     }
 
     @When("user add {int} quantity of product")
-    public void user_add_quantity_of_product(Integer int1) {
-
+    public void user_add_quantity_of_product(int int1) {
+        productPage.clicksOnCounterAddButton();
+        productPage.clicksOnCounterAddButton();
     }
 
     @When("user clicks on add to cart button")
     public void user_clicks_on_add_to_cart_button() {
-
+        productPage.clickOnAddToCartButton();
     }
 
     @Then("Product with {int} quantity visible in cart page.")
-    public void product_with_quantity_visible_in_cart_page(Integer int1) {
-
+    public void product_with_quantity_visible_in_cart_page(int int1) throws Throwable {
+        cartPage.quantityVisibleInCart(int1);
     }
 
     @When("User navigates to cart page")
-    public void user_navigates_to_cart_page() {
-
+    public void user_navigates_to_cart_page() throws InterruptedException {
+        catalogPage.clickOnCartButton();
     }
 
     @When("user clicks on the remove items button")
@@ -40,6 +51,6 @@ public class ProductSteps {
 
     @Then("cart page become empty.")
     public void cart_page_become_empty() {
-
+        cartPage.userOnEmptyCartPage();
     }
 }

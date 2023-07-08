@@ -36,7 +36,8 @@ public class CommonMethods extends Base {
         ExtentCucumberAdapter.addTestStepLog(log);
     }
     public static  void clickOnElement(By element){
-        driver.findElement(element).click();
+
+        driver.findElement(element).sendKeys(Keys.ENTER);
     }
 
     public static void enterText(String text, By element){
@@ -79,7 +80,7 @@ public class CommonMethods extends Base {
     }
 
     // Assertions:-
-    public By isElementDisplayed(By element) throws Throwable {
+    public static By isElementDisplayed(By element) throws Throwable {
 
         Assert.assertTrue(driver.findElement(element).isDisplayed());
         return element;

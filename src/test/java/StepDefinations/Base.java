@@ -100,6 +100,12 @@ public class Base {
 //        final byte []  screenshot =((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
 //        scenario.attach(screenshot, "img/png", "image");
 //    }
+
+    @AfterStep
+    public void screenShot(Scenario scenario){
+        byte[] screenshotBytes = driver.getScreenshotAs(OutputType.BYTES);
+        scenario.attach(screenshotBytes, "image/png", "screenshot");
+    }
     @After // execute after each scenario
     public static void afterScenario(Scenario scenario) {
         byte[] screenshotBytes = driver.getScreenshotAs(OutputType.BYTES);

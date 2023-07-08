@@ -6,7 +6,7 @@ import io.cucumber.java.en.*;
 
 public class NavigationSteps {
     CatalogPage catalogPage = new CatalogPage(Base.driver);
-    CartPage cartPage = new CartPage();
+    CartPage cartPage = new CartPage(Base.driver);
 
     @Given("User is on Cataloge page")
     public void user_is_on_cataloge_page() {
