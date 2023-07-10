@@ -4,11 +4,13 @@ package StepDefinations;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.options.XCUITestOptions;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
+import io.appium.java_client.service.local.AppiumServiceBuilder;
+import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import io.cucumber.java.*;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import org.testng.annotations.AfterSuite;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.ServerSocket;
@@ -28,15 +30,13 @@ public class Base {
         props.load(file);
     }
     public static void configPropertiesReader() throws IOException {
-        fileLoader("src/test/resources/Properties/config.properties");
+        fileLoader("src/test/resources/Properties/Config.properties");
         fileLoader("src/test/resources/Properties/CatalogPageLocators.properties");
         fileLoader("src/test/resources/Properties/CartPageLocators.properties");
         fileLoader("src/test/resources/Properties/MenuPageLocators.properties");
         fileLoader("src/test/resources/Properties/LogInPageLocators.properties");
     }
-
-    public static Boolean checkIfServerIsRunning(int port)
-    {
+    public static Boolean checkIfServerIsRunning(int port) {
         boolean isServerRunning=false;
         ServerSocket serversocket;
         try{
@@ -50,75 +50,76 @@ public class Base {
 
         return isServerRunning;
     }
-
     public static AppiumDriverLocalService startServer(){
         Boolean flag = checkIfServerIsRunning(4723);
         if(!flag){
-            service = AppiumDriverLocalService.buildDefaultService();
+            AppiumServiceBuilder builder = new AppiumServiceBuilder();
+            builder
+                    .withAppiumJS(new File("/usr/local/lib/node_modules/appium/build/lib/main.js"))
+                    .usingDriverExecutable(new File("/usr/local/bin/node"))
+                    .usingPort(4723)
+                    .withArgument(GeneralServerFlag.LOCAL_TIMEZONE)
+                    .withLogFile(new File("test-output/AppiumLogs/"+"AppiumLog.txt"));
+            service =  AppiumDriverLocalService.buildService(builder);
             service.start();
         }
         return service;
     }
-//    public static void StartEmulator() throws IOException, InterruptedException {
-//        Runtime.getRuntime().exec(System.getProperty("user.dir")+"/Library/Developer/CoreSimulator/Devices/3566F5C1-A152-409F-BEA1-147905D384D0");
-//        Thread.sleep(15000);
-//    }
+    public static void launchApplication() throws IOException {
+            service = startServer();
+            configPropertiesReader();
+            String automationName = props.getProperty("automationName");
+            String platformName = props.getProperty("platformName");
+            String deviceName = props.getProperty("deviceName");
+            String deviceType = props.getProperty("deviceType");
+            String appPath = props.getProperty("appPath");
+            String appiumUrl = props.getProperty("appiumUrl");
 
+            if(deviceType.equalsIgnoreCase("Simulator") && platformName.equalsIgnoreCase("iOS")){
+                XCUITestOptions options =new XCUITestOptions();
+                options.setDeviceName(deviceName);
+                options.setPlatformName(platformName);
+                options.setApp(System.getProperty("user.dir")+appPath);
+                options.setAutomationName(automationName);
+                driver = new IOSDriver(new URL(appiumUrl), options);
+                System.out.println("iOS app launched in Simulator");
 
-    @Before
-    public void launchApplication() throws IOException, InterruptedException {
-        service = startServer();
-        configPropertiesReader();
-        String automationName = props.getProperty("automationName");
-        String platformName = props.getProperty("platformName");
-        String deviceName = props.getProperty("deviceName");
-        String deviceType = props.getProperty("deviceType");
-        String appPath = props.getProperty("appPath");
-        String appiumUrl = props.getProperty("appiumUrl");
-
-        if(deviceType.equalsIgnoreCase("Simulator") && platformName.equalsIgnoreCase("iOS")){
-//            StartEmulator();
-            XCUITestOptions options =new XCUITestOptions();
-            options.setDeviceName(deviceName);
-            options.setPlatformName(platformName);
-            options.setApp(System.getProperty("user.dir")+appPath);
-            options.setAutomationName(automationName);
-            driver = new IOSDriver(new URL(appiumUrl), options);
-            System.out.println("iOS app launched in Simulator");Thread.sleep(2000);
-
-        } else if (deviceType.equalsIgnoreCase("real Device") && platformName.equalsIgnoreCase("iOS")) {
-            // capabilities for launching the real device :-
-            XCUITestOptions options =new XCUITestOptions();
-            options.setDeviceName(deviceName);
-            options.setPlatformName(platformName);
-            options.setApp(System.getProperty("user.dir")+appPath);
-            options.setAutomationName(automationName);
-            driver = new IOSDriver(new URL(appiumUrl), options);
-            System.out.println("iOS app launched in real device");Thread.sleep(2000);
-        }
+            } else if (deviceType.equalsIgnoreCase("real Device") && platformName.equalsIgnoreCase("iOS")) {
+                // capabilities for launching the real device :-
+                XCUITestOptions options =new XCUITestOptions();
+                options.setDeviceName(deviceName);
+                options.setPlatformName(platformName);
+                options.setApp(System.getProperty("user.dir")+appPath);
+                options.setAutomationName(automationName);
+                driver = new IOSDriver(new URL(appiumUrl), options);
+                System.out.println("iOS app launched in real device");
+            }
     }
-
-//    @BeforeStep // this will execute before step definition
-//    public void beforeStep(){
-//        System.out.println("this is @BeforeStep");
+//    @AfterStep
+//    public static void takeScreenshot(Scenario scenario) {
+//        final byte []  screenshot =((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+//        scenario.attach(screenshot, "img/png", "image");
 //    }
 
     @AfterStep
-    public void takeScreenshot(Scenario scenario) {
-        final byte []  screenshot =((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-        scenario.attach(screenshot, "img/png", "image");
+    public void screenShot(Scenario scenario){
+        byte[] screenshotBytes = driver.getScreenshotAs(OutputType.BYTES);
+        scenario.attach(screenshotBytes, "image/png", "screenshot");
     }
-
     @After // execute after each scenario
-    public void afterMethod() {
+    public static void afterScenario(Scenario scenario) {
+        byte[] screenshotBytes = driver.getScreenshotAs(OutputType.BYTES);
+        scenario.attach(screenshotBytes, "image/png", "screenshot");
         driver.terminateApp("com.saucelabs.mydemoapp.rn");
         System.out.println("App terminated successfully");
     }
-
-    @AfterSuite
-    public void afterSuite(){
-        service.stop();
-        System.out.println("service stopped");
+    @BeforeAll
+    public static void beforeAl() throws IOException {
+        launchApplication();
+        System.out.println("BeforeAll :-App launched");
     }
-
+    @AfterAll
+    public static void afterAll(){
+        service.stop();
+    }
 }
