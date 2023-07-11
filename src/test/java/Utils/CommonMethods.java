@@ -36,8 +36,7 @@ public class CommonMethods extends Base {
         ExtentCucumberAdapter.addTestStepLog(log);
     }
     public static  void clickOnElement(By element){
-
-        driver.findElement(element).sendKeys(Keys.ENTER);
+        driver.findElement(element).click();
     }
 
     public static void enterText(String text, By element){

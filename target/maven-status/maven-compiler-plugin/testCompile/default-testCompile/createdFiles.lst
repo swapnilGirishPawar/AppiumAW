@@ -1,0 +1,13 @@
+Pages/LogInPage.class
+Pages/ProductPage.class
+Utils/DataFaker.class
+Pages/CartPage.class
+Pages/CatalogPage.class
+StepDefinations/LoginSteps.class
+Pages/MenuPage.class
+TestRunners/TestRunner.class
+StepDefinations/NavigationSteps.class
+StepDefinations/Base.class
+StepDefinations/ProductSteps.class
+Utils/ExcelUtils.class
+Utils/CommonMethods.class

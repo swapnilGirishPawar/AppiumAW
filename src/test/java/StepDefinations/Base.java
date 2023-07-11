@@ -53,15 +53,18 @@ public class Base {
     public static AppiumDriverLocalService startServer(){
         Boolean flag = checkIfServerIsRunning(4723);
         if(!flag){
-            AppiumServiceBuilder builder = new AppiumServiceBuilder();
-            builder
-                    .withAppiumJS(new File("/usr/local/lib/node_modules/appium/build/lib/main.js"))
-                    .usingDriverExecutable(new File("/usr/local/bin/node"))
-                    .usingPort(4723)
-                    .withArgument(GeneralServerFlag.LOCAL_TIMEZONE)
-                    .withLogFile(new File("test-output/AppiumLogs/"+"AppiumLog.txt"));
-            service =  AppiumDriverLocalService.buildService(builder);
+            service = AppiumDriverLocalService.buildDefaultService();
             service.start();
+
+//            AppiumServiceBuilder builder = new AppiumServiceBuilder();
+//            builder
+//                    .withAppiumJS(new File("/usr/local/lib/node_modules/appium/build/lib/main.js"))
+//                    .usingDriverExecutable(new File("/usr/local/bin/node"))
+//                    .usingPort(4723)
+//                    .withArgument(GeneralServerFlag.LOCAL_TIMEZONE)
+//                    .withLogFile(new File("test-output/AppiumLogs/"+"AppiumLog.txt"));
+//            service =  AppiumDriverLocalService.buildService(builder);
+//            service.start();
         }
         return service;
     }
@@ -110,8 +113,7 @@ public class Base {
     public static void afterScenario(Scenario scenario) {
         byte[] screenshotBytes = driver.getScreenshotAs(OutputType.BYTES);
         scenario.attach(screenshotBytes, "image/png", "screenshot");
-        driver.terminateApp("com.saucelabs.mydemoapp.rn");
-        System.out.println("App terminated successfully");
+
     }
     @BeforeAll
     public static void beforeAl() throws IOException {
@@ -120,6 +122,9 @@ public class Base {
     }
     @AfterAll
     public static void afterAll(){
+//        driver.terminateApp("com.saucelabs.mydemoapp.rn");
         service.stop();
+        System.out.println("App terminated successfully");
+
     }
 }
