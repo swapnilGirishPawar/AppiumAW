@@ -35,6 +35,7 @@ public class Base {
         fileLoader("src/test/resources/Properties/CartPageLocators.properties");
         fileLoader("src/test/resources/Properties/MenuPageLocators.properties");
         fileLoader("src/test/resources/Properties/LogInPageLocators.properties");
+        fileLoader("src/test/resources/Properties/ProductPageLocators.properties");
     }
     public static Boolean checkIfServerIsRunning(int port) {
         boolean isServerRunning=false;
@@ -113,7 +114,7 @@ public class Base {
     public static void afterScenario(Scenario scenario) {
         byte[] screenshotBytes = driver.getScreenshotAs(OutputType.BYTES);
         scenario.attach(screenshotBytes, "image/png", "screenshot");
-
+        driver.terminateApp("com.saucelabs.mydemoapp.rn");
     }
     @BeforeAll
     public static void beforeAl() throws IOException {

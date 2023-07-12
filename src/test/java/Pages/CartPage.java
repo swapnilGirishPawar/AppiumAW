@@ -32,6 +32,7 @@ public void quantityVisibleInCart(int count) throws Throwable {
         CommonMethods.isElementDisplayed(ProductPageCounterAmount);
         String CountAmount = (driver.findElement(ProductPageCounterAmount)).getText();
         Assert.assertEquals(String.valueOf(count), CountAmount);
+    System.out.println("required amount:- "+count+" & page Amount:- "+CountAmount);
     }
 
     public void clickOnCartButton() throws InterruptedException {

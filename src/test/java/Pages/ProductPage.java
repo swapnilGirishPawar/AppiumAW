@@ -7,11 +7,11 @@ import io.appium.java_client.ios.IOSDriver;
 import org.openqa.selenium.By;
 
 public class ProductPage extends Base {
-    private final By productPageTitle = By.xpath("productPageTitle");
-    private final By counterPlusButton = By.xpath("counterPlusButton");
-    private final By counterMinusButton = By.xpath("counterMinusButton");
-    private final By counterAmount = By.xpath("counterAmount");
-    private final By addToCartButton = By.xpath("addToCartButton");
+    private final By productPageTitle = By.xpath(props.getProperty("productPageTitle"));
+    private final By counterPlusButton = By.xpath(props.getProperty("counterPlusButton"));
+    private final By counterMinusButton = By.xpath(props.getProperty("counterMinusButton"));
+    private final By counterAmount = By.xpath(props.getProperty("counterAmount"));
+    private final By addToCartButton = By.xpath(props.getProperty("addToCartButton"));
 
     public void clicksOnCounterAddButton(int count){
         String counter = driver.findElement(counterAmount).getText();
@@ -22,17 +22,31 @@ public class ProductPage extends Base {
         }
     }
 
-    public void clicksOnCounterAddButton(){
-        CommonMethods.clickOnElement(counterPlusButton);
+    public void clicksOnCounterAddButton() throws InterruptedException {
+        if(driver.findElement(counterPlusButton).isDisplayed()) {
+            Thread.sleep(1500);
+            CommonMethods.sendKeysEnter(counterPlusButton);
+        }
+        else {
+            System.out.println("Element not displayed");
+        }
     }
-    public void clicksOnCounterMinusButton(int count){
-        for (int i = 1; i <=count; i++) {
+    public void clicksOnCounterMinusButton(){
+
+        int count = Integer.parseInt(driver.findElement(counterAmount).getText());
+        for (int i = 0; i < count; i++) {
             CommonMethods.clickOnElement(counterMinusButton);
         }
     }
 
-    public void clickOnAddToCartButton(){
-        CommonMethods.clickOnElement(addToCartButton);
+    public void clickOnAddToCartButton() throws InterruptedException {
+        if(driver.findElement(addToCartButton).isDisplayed()) {
+            Thread.sleep(500);
+            CommonMethods.sendKeysEnter(addToCartButton);
+        }
+        else {
+            System.out.println("Element not displayed");
+        }
     }
 
 

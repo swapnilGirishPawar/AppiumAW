@@ -46,8 +46,9 @@ public class LoginSteps {
     }
 
     @Then("User is on login page")
-    public void userIsOnLoginPage() {
+    public void userIsOnLoginPage() throws InterruptedException {
         loginPage.userIsOnLoginPage();
+        catalogPage.userOnCatalogPage();
 
     }
 }

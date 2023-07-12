@@ -32,11 +32,28 @@ public class CommonMethods extends Base {
 //    9. isElementDisplayed(By element)
 //    10. clearField(By element)
 
+
     public static void addLogToReport(String log) {
         ExtentCucumberAdapter.addTestStepLog(log);
     }
     public static  void clickOnElement(By element){
-        driver.findElement(element).click();
+        if(driver.findElement(element).isDisplayed()) {
+            driver.findElement(element).click();
+        }
+        else {
+            System.out.println(element+"-> is not present");
+        }
+
+    }
+    public static void sendKeysEnter(By element) throws InterruptedException {
+        if(driver.findElement(element).isDisplayed()) {
+            Thread.sleep(1500);
+            driver.findElement(element).sendKeys(Keys.ENTER);
+        }
+        else {
+            System.out.println(element+"-> is not present");
+        }
+
     }
 
     public static void enterText(String text, By element){

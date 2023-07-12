@@ -3,10 +3,10 @@ import io.cucumber.testng.*;
 
 
 
-@CucumberOptions(features = "src/test/resources/Features", glue = {"StepDefinations"},
+@CucumberOptions(features = {"src/test/resources/Features"}, glue = {"StepDefinations"},
         monochrome = true,
         dryRun = false
-        ,tags = "@Login"
+        ,tags = "@Product"
         ,plugin = {"pretty", "html:test-output/OtherReports/jsonReports.html",
                     "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"}
 )
