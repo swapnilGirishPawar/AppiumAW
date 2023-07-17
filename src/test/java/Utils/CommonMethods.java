@@ -226,4 +226,45 @@ public class CommonMethods extends Base {
 
         driver.perform(Arrays.asList(sequence1, sequence2));
     }
+
+    // Swiping / scrolling gesture using appium java client -
+        // this function will only do scroll action. doesn't find for particular element.
+    public void scrollOnScreen(){
+        Dimension size =  driver.manage().window().getSize();
+        int startX = size.getWidth() / 2;
+        int startY = size.getHeight() / 2;
+        int endX = startX;
+        int endY = (int) (size.getHeight() * 0.25);
+        PointerInput finger1 =  new PointerInput(PointerInput.Kind.TOUCH, "finger1");
+        Sequence sequence = new Sequence(finger1, 1)
+                .addAction(finger1.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), startX, startY))
+                .addAction(finger1.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
+                .addAction(new Pause(finger1, Duration.ofMillis(200)))
+                .addAction(finger1.createPointerMove(Duration.ofMillis(100), PointerInput.Origin.viewport(), endX, endY))
+                .addAction(finger1.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+        driver.perform(Collections.singletonList(sequence));
+    }
+
+    public void scrollUntilElement(By Ele){
+        WebElement element = driver.findElement(Ele);
+        if(!element.isDisplayed()) {
+            Dimension size = driver.manage().window().getSize();
+            int startX = size.getWidth() / 2;
+            int startY = size.getHeight() / 2;
+            int endX = startX;
+            int endY = (int) (size.getHeight() * 0.25);
+            PointerInput finger1 = new PointerInput(PointerInput.Kind.TOUCH, "finger1");
+            Sequence sequence = new Sequence(finger1, 1)
+                    .addAction(finger1.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), startX, startY))
+                    .addAction(finger1.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
+                    .addAction(new Pause(finger1, Duration.ofMillis(200)))
+                    .addAction(finger1.createPointerMove(Duration.ofMillis(100), PointerInput.Origin.viewport(), endX, endY))
+                    .addAction(finger1.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+            driver.perform(Collections.singletonList(sequence));
+        }
+        else {
+            System.out.println(element + " element is displayed on the screen, ready to perform action on it");
+        }
+    }
+
 }
