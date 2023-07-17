@@ -3,6 +3,7 @@ package StepDefinations;
 import Pages.CatalogPage;
 import Pages.LogInPage;
 import Pages.MenuPage;
+import Utils.CommonMethods;
 import io.cucumber.java.en.*;
 
 public class LoginSteps {

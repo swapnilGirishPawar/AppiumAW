@@ -11,7 +11,7 @@ public class CatalogPage extends Base {
     private final By pageTitle = By.xpath(props.getProperty("pageTitle"));
     private final By cartButton = By.xpath(props.getProperty("cartButton"));
     private final By catalogButton = By.xpath(props.getProperty("catalogButton"));
-    private static final By menuButton = By.xpath(props.getProperty("menuButton"));
+    private final By menuButton = By.xpath(props.getProperty("menuButton"));
     private static final By productNumber6 = By.xpath(props.getProperty("productNumber6"));
     private final By productNumber5 = By.xpath(props.getProperty("productNumber5"));
 

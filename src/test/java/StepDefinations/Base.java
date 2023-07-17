@@ -9,6 +9,7 @@ import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import io.cucumber.java.*;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.testng.asserts.SoftAssert;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,6 +25,7 @@ public class Base {
     public static IOSDriver driver;
     public static AppiumDriverLocalService service;
     protected static Properties props = new Properties();
+    protected static SoftAssert sa = new SoftAssert();
 
     public static void fileLoader(String filePath) throws IOException {
         file = Files.newInputStream(Paths.get(filePath));

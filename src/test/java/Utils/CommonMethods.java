@@ -2,17 +2,18 @@ package Utils;
 
 import StepDefinations.Base;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
-import io.appium.java_client.MobileBy;
 import io.appium.java_client.TouchAction;
-import io.appium.java_client.touch.TapOptions;
-import io.appium.java_client.touch.offset.ElementOption;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Pause;
+import org.openqa.selenium.interactions.PointerInput;
+import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
+import java.util.Collections;
 import java.util.HashMap;
 
 import static io.appium.java_client.touch.LongPressOptions.longPressOptions;
@@ -33,15 +34,25 @@ public class CommonMethods extends Base {
 //    10. clearField(By element)
 
 
-    public static void addLogToReport(String log) {
-        ExtentCucumberAdapter.addTestStepLog(log);
-    }
-    public static  void clickOnElement(By element){
-        if(driver.findElement(element).isDisplayed()) {
-            driver.findElement(element).click();
+//    public static void addLogToReport(String log) {
+//        ExtentCucumberAdapter.addTestStepLog(log);
+//    }
+    public static  void clickOnElement(By eleme){
+        if(driver.findElement(eleme).isDisplayed()) {
+            WebElement element = driver.findElement(eleme);
+            Point location = element.getLocation();
+            Dimension size = element.getSize();
+            Point center =  getCenterOfElement(location, size);
+            PointerInput finger1 = new PointerInput(PointerInput.Kind.TOUCH, "finger1");
+            Sequence sequence = new Sequence(finger1, 1)
+                    .addAction(finger1.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), center))
+                    .addAction(finger1.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
+                    .addAction(new Pause(finger1, Duration.ofMillis(200)))
+                    .addAction(finger1.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+            driver.perform(Collections.singletonList(sequence));
         }
         else {
-            System.out.println(element+"-> is not present");
+            System.out.println(eleme+"-> is not present");
         }
 
     }
@@ -76,6 +87,7 @@ public class CommonMethods extends Base {
     }
 
 
+
     public void longPressOnElement(By Element){
         TouchAction action = new TouchAction(driver);
         action.longPress(longPressOptions().withElement(element(driver.findElement(Element))).withDuration(Duration.ofSeconds(5)))
@@ -88,9 +100,6 @@ public class CommonMethods extends Base {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOfElementLocated(element));
     }
-
-
-
     public void killAndLaunchApp(){
         driver.terminateApp(props.getProperty("bundleId"));
     }
@@ -106,5 +115,91 @@ public class CommonMethods extends Base {
             driver.findElement(element).clear();
     }
 
+// soft asserts
+    protected static SoftAssert sa = new SoftAssert();
+    public static void addLogToReport(String messageToBeAddInReport) {
+        try {
+            ExtentCucumberAdapter.addTestStepLog(messageToBeAddInReport);
+        } catch (Exception e ){
+            e.printStackTrace();
+        }
+    }
+    public static void isSoftElementDisplayed(By actualElement, By expectedElement){
+        sa.assertEquals(actualElement, expectedElement);
+        addLogToReport("Actual element :- "+actualElement);
+        addLogToReport("Expected element :- "+expectedElement);
+    }
+    // overload -
+    public static void isSoftElementDisplayed(String actualElementLocator, String expectedElementLocator){
+        WebElement actualElement = driver.findElement(By.xpath(actualElementLocator));
+        WebElement expectedElement = driver.findElement(By.xpath(expectedElementLocator));
+        sa.assertEquals(actualElement, expectedElement);
+        sa.assertAll();
+        addLogToReport("Actual element :- "+actualElement);
+        addLogToReport("Expected element :- "+expectedElement);
+    }
+
+    public static void softElementTrue(By element){
+        sa.assertTrue(driver.findElement(element).isDisplayed());
+        addLogToReport("Element to be True :- "+element);
+    }
+    // overload -
+    public static void softElementTrue(String locator){
+        WebElement element = driver.findElement(By.xpath(locator));
+        sa.assertTrue(element.isDisplayed());
+        addLogToReport("locator to be True :- "+locator);
+    }
+
+    public static void softElementFalse(By element){
+        sa.assertFalse(driver.findElement(element).isDisplayed());
+        addLogToReport("Element to be False :- "+element);
+    }
+    // overload -
+    public static void softElementFalse(String locator){
+        WebElement element = driver.findElement(By.xpath(locator));
+        sa.assertFalse(element.isDisplayed());
+        addLogToReport("locator to be False :- "+locator);
+    }
+
+    // Gestures, tap on element(using appium java client)
+    // added lines in the clickOnElement function.
+    public static Point getCenterOfElement(Point location, Dimension size){
+        return new Point(location.getX() + size.getWidth() / 2,
+                         location.getY() + size.getHeight() / 2);
+    }
+
+    // Double tap On element
+    public void doubleTapOnElement(By ele){
+        WebElement element = driver.findElement(ele);
+        Point location = element.getLocation();
+        Dimension size = element.getSize();
+        Point center =  getCenterOfElement(location, size);
+        PointerInput finger1 = new PointerInput(PointerInput.Kind.TOUCH, "finger1");
+        Sequence sequence = new Sequence(finger1, 1)
+                .addAction(finger1.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), center))
+                .addAction(finger1.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
+                .addAction(new Pause(finger1, Duration.ofMillis(100)))
+                .addAction(finger1.createPointerUp(PointerInput.MouseButton.LEFT.asArg()))
+                .addAction(new Pause(finger1, Duration.ofMillis(100)))
+                .addAction(finger1.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
+                .addAction(new Pause(finger1, Duration.ofMillis(100)))
+                .addAction(finger1.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+        driver.perform(Collections.singletonList(sequence));
+    }
+
+    // Long press on element -
+    public void longPressOnElement(By eleme, int seconds){
+        WebElement element = driver.findElement(eleme);
+        Point location = element.getLocation();
+        Dimension size = element.getSize();
+        Point center =  getCenterOfElement(location, size);
+        PointerInput finger1 = new PointerInput(PointerInput.Kind.TOUCH, "finger1");
+        Sequence sequence = new Sequence(finger1, 1)
+                .addAction(finger1.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), center))
+                .addAction(finger1.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
+                .addAction(new Pause(finger1, Duration.ofSeconds(seconds)))
+                .addAction(finger1.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+        driver.perform(Collections.singletonList(sequence));
+    }
 
 }
