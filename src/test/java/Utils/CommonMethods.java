@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 
+import javax.xml.crypto.dsig.keyinfo.KeyInfo;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Collections;
@@ -267,4 +268,21 @@ public class CommonMethods extends Base {
         }
     }
 
+    // Drag and drop action - appium java client
+    public void dragAndDrop(By ele1, By ele2){
+        WebElement element1 = driver.findElement(ele1);
+        WebElement element2 = driver.findElement(ele2);
+        Point center1 = getCenterOfElement(element1.getLocation(), element1.getSize());
+        Point center2 = getCenterOfElement(element2.getLocation(), element2.getSize());
+
+        PointerInput finger1 = new PointerInput(PointerInput.Kind.TOUCH, "finger1");
+        Sequence sequence = new Sequence(finger1, 1)
+                .addAction(finger1.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), center1))
+                .addAction(finger1.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
+                .addAction(new Pause(finger1, Duration.ofMillis(500)))
+                .addAction(finger1.createPointerMove(Duration.ofMillis(500), PointerInput.Origin.viewport(), center2))
+                .addAction(finger1.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+        driver.perform(Collections.singletonList(sequence));
+
+    }
 }
