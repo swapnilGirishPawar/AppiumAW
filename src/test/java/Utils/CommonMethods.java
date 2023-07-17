@@ -3,6 +3,7 @@ package Utils;
 import StepDefinations.Base;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import io.appium.java_client.TouchAction;
+import jdk.internal.vm.compiler.word.Pointer;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Pause;
 import org.openqa.selenium.interactions.PointerInput;
@@ -13,6 +14,7 @@ import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 
@@ -201,5 +203,27 @@ public class CommonMethods extends Base {
                 .addAction(finger1.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
         driver.perform(Collections.singletonList(sequence));
     }
+    // Zoom gestures
+    public void zoomOnTheElement(By ele){
+        WebElement element = driver.findElement(ele);
 
+        Point center = getCenterOfElement(element.getLocation(), element.getSize());
+        PointerInput finger1 = new PointerInput(PointerInput.Kind.TOUCH, "finger1");
+        PointerInput finger2 = new PointerInput(PointerInput.Kind.TOUCH, "finger2");
+        Sequence sequence1 = new Sequence(finger1, 1)
+                .addAction(finger1.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), center))
+                .addAction(finger1.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
+                .addAction(new Pause(finger1, Duration.ofMillis(200)))
+                .addAction(finger1.createPointerMove(Duration.ofMillis(200), PointerInput.Origin.viewport(), center.getX()+100, center.getY()-100))
+                .addAction(finger1.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+
+        Sequence sequence2 = new Sequence(finger2, 1)
+                .addAction(finger2.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), center))
+                .addAction(finger2.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
+                .addAction(new Pause(finger2, Duration.ofMillis(200)))
+                .addAction(finger2.createPointerMove(Duration.ofMillis(200), PointerInput.Origin.viewport(), center.getX()-100, center.getY()+100))
+                .addAction(finger2.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+
+        driver.perform(Arrays.asList(sequence1, sequence2));
+    }
 }
