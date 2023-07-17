@@ -16,6 +16,7 @@ public class NavigationSteps {
     @When("user clicks on Cart button")
     public void user_clicks_on_cart_button() throws InterruptedException {
         catalogPage.clickOnCartButton();
+        catalogPage.clickOnCartButton();
     }
 
     @Then("user lands on cart page")

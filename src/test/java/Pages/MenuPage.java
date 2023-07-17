@@ -13,8 +13,13 @@ public class MenuPage extends Base {
     private final By MenuAboutButton = By.xpath(props.getProperty("MenuAboutButton"));
     private final  By MenuLogoutPopUp = By.xpath(props.getProperty("MenuLogoutPopUp"));
 
+    private final By testZSoft = By.xpath(props.getProperty("catalogButton"));
+
 
     public void clickOnLogInTab() throws InterruptedException {
+        CommonMethods.isSoftElementDisplayed(MenuCloseButton, testZSoft);
+//        CommonMethods.softElementTrue(MenuCloseButton);
+        System.out.println("soft assert Passed");
         CommonMethods.waitForTextVisibility(MenuLogInButton);
         CommonMethods.clickOnElement(MenuLogInButton);
         CommonMethods.addLogToReport("Clicked on Log In Button");

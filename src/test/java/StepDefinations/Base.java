@@ -9,6 +9,7 @@ import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import io.cucumber.java.*;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.testng.asserts.SoftAssert;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,6 +25,7 @@ public class Base {
     public static IOSDriver driver;
     public static AppiumDriverLocalService service;
     protected static Properties props = new Properties();
+    protected static SoftAssert sa = new SoftAssert();
 
     public static void fileLoader(String filePath) throws IOException {
         file = Files.newInputStream(Paths.get(filePath));
@@ -35,6 +37,7 @@ public class Base {
         fileLoader("src/test/resources/Properties/CartPageLocators.properties");
         fileLoader("src/test/resources/Properties/MenuPageLocators.properties");
         fileLoader("src/test/resources/Properties/LogInPageLocators.properties");
+        fileLoader("src/test/resources/Properties/ProductPageLocators.properties");
     }
     public static Boolean checkIfServerIsRunning(int port) {
         boolean isServerRunning=false;
@@ -53,15 +56,18 @@ public class Base {
     public static AppiumDriverLocalService startServer(){
         Boolean flag = checkIfServerIsRunning(4723);
         if(!flag){
-            AppiumServiceBuilder builder = new AppiumServiceBuilder();
-            builder
-                    .withAppiumJS(new File("/usr/local/lib/node_modules/appium/build/lib/main.js"))
-                    .usingDriverExecutable(new File("/usr/local/bin/node"))
-                    .usingPort(4723)
-                    .withArgument(GeneralServerFlag.LOCAL_TIMEZONE)
-                    .withLogFile(new File("test-output/AppiumLogs/"+"AppiumLog.txt"));
-            service =  AppiumDriverLocalService.buildService(builder);
+            service = AppiumDriverLocalService.buildDefaultService();
             service.start();
+
+//            AppiumServiceBuilder builder = new AppiumServiceBuilder();
+//            builder
+//                    .withAppiumJS(new File("/usr/local/lib/node_modules/appium/build/lib/main.js"))
+//                    .usingDriverExecutable(new File("/usr/local/bin/node"))
+//                    .usingPort(4723)
+//                    .withArgument(GeneralServerFlag.LOCAL_TIMEZONE)
+//                    .withLogFile(new File("test-output/AppiumLogs/"+"AppiumLog.txt"));
+//            service =  AppiumDriverLocalService.buildService(builder);
+//            service.start();
         }
         return service;
     }
@@ -111,7 +117,6 @@ public class Base {
         byte[] screenshotBytes = driver.getScreenshotAs(OutputType.BYTES);
         scenario.attach(screenshotBytes, "image/png", "screenshot");
         driver.terminateApp("com.saucelabs.mydemoapp.rn");
-        System.out.println("App terminated successfully");
     }
     @BeforeAll
     public static void beforeAl() throws IOException {
@@ -120,6 +125,9 @@ public class Base {
     }
     @AfterAll
     public static void afterAll(){
+//        driver.terminateApp("com.saucelabs.mydemoapp.rn");
         service.stop();
+        System.out.println("App terminated successfully");
+
     }
 }

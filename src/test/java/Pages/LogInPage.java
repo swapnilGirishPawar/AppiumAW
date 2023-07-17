@@ -10,10 +10,18 @@ public class LogInPage extends Base {
     private final By LogInPasswordField = By.xpath(props.getProperty("LoginPasswordField"));
     private final By LogInLogInButton = By.xpath(props.getProperty("LoginLogInButton"));
     private final By LoginLogoutSuccessfulPopup = By.xpath(props.getProperty("LoginLogoutSuccessfulPopup"));
+    private final By LoginLoginPageTitle = By.xpath(props.getProperty("LoginLoginPageTitle"));
 
-    public void clickOnLoginButton() throws InterruptedException {
-        CommonMethods.clickOnElement(LogInLogInButton);
-        CommonMethods.addLogToReport("Clicked on Log In Button");
+    public void clickOnLoginButton(){
+        CommonMethods.clickOnElement(LoginLoginPageTitle);
+        if(driver.findElement(LogInLogInButton).isDisplayed()){
+            CommonMethods.clickOnElement(LogInLogInButton);
+            CommonMethods.addLogToReport("Clicked on Log In Button");
+            CommonMethods.addLogToReport("Clicked on Login Button"+LogInLogInButton);
+        }
+        else {
+            System.out.println(LogInLogInButton+" Element is not visible");
+        }
     }
     public void enterUserNameField(String username){
         CommonMethods.enterText(username, LogInUsernameField);

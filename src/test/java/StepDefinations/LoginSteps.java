@@ -3,6 +3,7 @@ package StepDefinations;
 import Pages.CatalogPage;
 import Pages.LogInPage;
 import Pages.MenuPage;
+import Utils.CommonMethods;
 import io.cucumber.java.en.*;
 
 public class LoginSteps {
@@ -13,6 +14,7 @@ public class LoginSteps {
 
     @When("user clicks on Menu button")
     public void user_clicks_on_menu_button() throws InterruptedException {
+        Thread.sleep(1000);
         catalogPage.clickOnMenuButton();
     }
 
@@ -45,8 +47,9 @@ public class LoginSteps {
     }
 
     @Then("User is on login page")
-    public void userIsOnLoginPage() {
+    public void userIsOnLoginPage() throws InterruptedException {
         loginPage.userIsOnLoginPage();
+        catalogPage.userOnCatalogPage();
 
     }
 }
