@@ -24,18 +24,21 @@ public class ProductPage extends Base {
 
     public void clicksOnCounterAddButton() throws InterruptedException {
         if(driver.findElement(counterPlusButton).isDisplayed()) {
-            Thread.sleep(1500);
-            CommonMethods.sendKeysEnter(counterPlusButton);
+            CommonMethods.clickOnElement(counterPlusButton);
         }
         else {
             System.out.println("Element not displayed");
         }
     }
     public void clicksOnCounterMinusButton(){
-
         int count = Integer.parseInt(driver.findElement(counterAmount).getText());
-        for (int i = 0; i < count; i++) {
-            CommonMethods.clickOnElement(counterMinusButton);
+        if(driver.findElement(counterMinusButton).isDisplayed()) {
+            for (int i = 0; i < count; i++) {
+                CommonMethods.clickOnElement(counterMinusButton);
+            }
+        }
+        else {
+            System.out.println("Element not displayed");
         }
     }
 

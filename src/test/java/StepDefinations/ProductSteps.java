@@ -13,7 +13,7 @@ public class ProductSteps {
     ProductPage productPage = new ProductPage(Base.driver);
     CartPage cartPage = new CartPage(Base.driver);
     @When("User navigates to the product")
-    public void user_navigates_to_the_product() {
+    public void user_navigates_to_the_product() throws InterruptedException {
         // swipe till the product
         catalogPage.navigateTillProduct();
     }
@@ -49,7 +49,6 @@ public class ProductSteps {
 
     @When("user clicks on the remove items button")
     public void user_clicks_on_the_remove_items_button() {
-
         productPage.clicksOnCounterMinusButton();
     }
 

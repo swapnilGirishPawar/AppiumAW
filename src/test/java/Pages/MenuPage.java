@@ -17,7 +17,7 @@ public class MenuPage extends Base {
 
 
     public void clickOnLogInTab() throws InterruptedException {
-        CommonMethods.isSoftElementDisplayed(MenuCloseButton, testZSoft);
+        CommonMethods.isSoftElementDisplayed(MenuLogInButton, testZSoft);
 //        CommonMethods.softElementTrue(MenuCloseButton);
         System.out.println("soft assert Passed");
         CommonMethods.waitForTextVisibility(MenuLogInButton);

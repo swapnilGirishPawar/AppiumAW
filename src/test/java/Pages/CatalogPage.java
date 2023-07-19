@@ -36,8 +36,10 @@ public class CatalogPage extends Base {
             CommonMethods.addLogToReport("user is on catalog page");
         }
     }
-    public void navigateTillProduct(){
-        CommonMethods.swipeUtilTextVisible((driver.findElement(productNumber6)).getText());
+    public void navigateTillProduct() throws InterruptedException {
+//        CommonMethods.swipeUtilTextVisible((driver.findElement(productNumber6)).getText());
+        CommonMethods.scrollUntilElement(productNumber6);
+        Thread.sleep(1500);
     }
 
     public static void clickOnProduct(By Element){
