@@ -1,6 +1,6 @@
+@Smoke
 Feature: verify user able to login and logout in application
 
-  @Smoke
   @Login
   Scenario: validate login functionality
     Given User is on Cataloge page

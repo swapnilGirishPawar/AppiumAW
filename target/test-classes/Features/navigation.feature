@@ -1,6 +1,6 @@
+@Smoke
 Feature: validate Cataloge page
 
-  @Smoke
   @Navigation
   Scenario: Verify user able to navigate to the cart page
     Given User is on Cataloge page
