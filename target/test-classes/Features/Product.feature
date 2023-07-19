@@ -1,6 +1,6 @@
+@Smoke
 Feature: verify user able to add and remove product in cart in application
 
-  @Smoke
   @Product
   Scenario: validate add to cart functionality
     Given User is on Cataloge page

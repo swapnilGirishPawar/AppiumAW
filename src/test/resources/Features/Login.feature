@@ -1,7 +1,7 @@
+@Smoke
 Feature: verify user able to login and logout in application
 
-  @Smoke
-  @Test
+  @Login
   Scenario: validate login functionality
     Given User is on Cataloge page
     When user clicks on Menu button
@@ -10,7 +10,7 @@ Feature: verify user able to login and logout in application
     And user clicks on Login button
     Then User is on Cataloge page
 
-  @Login2
+  @Login
   Scenario: validate logout functionality
     Given User is on Cataloge page
     When user clicks on Menu button

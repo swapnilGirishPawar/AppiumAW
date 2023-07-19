@@ -6,6 +6,8 @@ import Pages.MenuPage;
 import Utils.CommonMethods;
 import io.cucumber.java.en.*;
 
+import static StepDefinations.Base.soft;
+
 public class LoginSteps {
     private Base base;
     MenuPage menuPage = new MenuPage(Base.driver);
@@ -20,7 +22,7 @@ public class LoginSteps {
 
     @When("user clicks on Log In button")
     public void user_clicks_on_log_in_button() throws InterruptedException {
-        Thread.sleep(3000);
+        Thread.sleep(1500);
         menuPage.clickOnLogInTab();
     }
 
@@ -33,6 +35,7 @@ public class LoginSteps {
     @When("user clicks on Login button")
     public void user_clicks_on_login_button() throws InterruptedException {
         loginPage.clickOnLoginButton();
+        System.out.println("here");
     }
 
     @When("user clicks on Log Out button")

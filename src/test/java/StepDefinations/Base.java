@@ -7,8 +7,8 @@ import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
 import io.cucumber.java.*;
+import net.datafaker.providers.entertainment.SouthPark;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.testng.asserts.SoftAssert;
 
 import java.io.File;
@@ -25,7 +25,7 @@ public class Base {
     public static IOSDriver driver;
     public static AppiumDriverLocalService service;
     protected static Properties props = new Properties();
-    protected static SoftAssert sa = new SoftAssert();
+    protected static SoftAssert soft = new SoftAssert();
 
     public static void fileLoader(String filePath) throws IOException {
         file = Files.newInputStream(Paths.get(filePath));
@@ -64,7 +64,6 @@ public class Base {
 //                    .withAppiumJS(new File("/usr/local/lib/node_modules/appium/build/lib/main.js"))
 //                    .usingDriverExecutable(new File("/usr/local/bin/node"))
 //                    .usingPort(4723)
-//                    .withArgument(GeneralServerFlag.LOCAL_TIMEZONE)
 //                    .withLogFile(new File("test-output/AppiumLogs/"+"AppiumLog.txt"));
 //            service =  AppiumDriverLocalService.buildService(builder);
 //            service.start();
@@ -116,7 +115,8 @@ public class Base {
     public static void afterScenario(Scenario scenario) {
         byte[] screenshotBytes = driver.getScreenshotAs(OutputType.BYTES);
         scenario.attach(screenshotBytes, "image/png", "screenshot");
-        driver.terminateApp("com.saucelabs.mydemoapp.rn");
+//        soft.assertAll();
+
     }
     @BeforeAll
     public static void beforeAl() throws IOException {
@@ -125,9 +125,9 @@ public class Base {
     }
     @AfterAll
     public static void afterAll(){
-//        driver.terminateApp("com.saucelabs.mydemoapp.rn");
         service.stop();
         System.out.println("App terminated successfully");
-
     }
+
+
 }
