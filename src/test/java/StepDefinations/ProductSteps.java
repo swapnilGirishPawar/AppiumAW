@@ -21,7 +21,6 @@ public class ProductSteps {
     @When("user clicks on the product")
     public void user_clicks_on_the_product() throws InterruptedException {
         CatalogPage.clickOnProduct((Base.props.getProperty("productNumber6")));
-        Thread.sleep(10000);
     }
 
     @When("user add {int} quantity of product")

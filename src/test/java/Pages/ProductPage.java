@@ -44,7 +44,6 @@ public class ProductPage extends Base {
 
     public void clickOnAddToCartButton() throws InterruptedException {
         if(driver.findElement(addToCartButton).isDisplayed()) {
-            Thread.sleep(500);
             CommonMethods.sendKeysEnter(addToCartButton);
         }
         else {

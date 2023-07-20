@@ -15,6 +15,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Collections;
@@ -62,7 +65,6 @@ public class CommonMethods extends Base {
     }
     public static void sendKeysEnter(By element) throws InterruptedException {
         if(driver.findElement(element).isDisplayed()) {
-            Thread.sleep(1500);
             driver.findElement(element).sendKeys(Keys.ENTER);
         }
         else {
@@ -291,4 +293,17 @@ public class CommonMethods extends Base {
         driver.perform(Collections.singletonList(sequence));
 
     }
+
+    // Log reader
+    public static void readAndPrintLogs(String logFilePath) {
+        try (BufferedReader br = new BufferedReader(new FileReader(logFilePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

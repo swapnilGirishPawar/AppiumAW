@@ -1,6 +1,7 @@
 package StepDefinations;
 
 
+import Utils.Stopwatch;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.options.XCUITestOptions;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -20,12 +21,16 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
 
+import static Utils.Stopwatch.printElapsedTime;
+import static Utils.Stopwatch.stopAndResetStopwatch;
+
 public class Base {
     public static InputStream file;
     public static IOSDriver driver;
     public static AppiumDriverLocalService service;
     protected static Properties props = new Properties();
     protected static SoftAssert soft = new SoftAssert();
+    static Stopwatch stopwatch = new Stopwatch();
 
     public static void fileLoader(String filePath) throws IOException {
         file = Files.newInputStream(Paths.get(filePath));
@@ -120,6 +125,7 @@ public class Base {
     }
     @BeforeAll
     public static void beforeAl() throws IOException {
+        stopwatch.start();
         launchApplication();
         System.out.println("BeforeAll :-App launched");
     }
@@ -127,6 +133,7 @@ public class Base {
     public static void afterAll(){
         service.stop();
         System.out.println("App terminated successfully");
+        stopAndResetStopwatch(stopwatch);
     }
 
 

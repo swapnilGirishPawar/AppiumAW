@@ -16,13 +16,11 @@ public class LoginSteps {
 
     @When("user clicks on Menu button")
     public void user_clicks_on_menu_button() throws InterruptedException {
-        Thread.sleep(1000);
         catalogPage.clickOnMenuButton();
     }
 
     @When("user clicks on Log In button")
     public void user_clicks_on_log_in_button() throws InterruptedException {
-        Thread.sleep(1500);
         menuPage.clickOnLogInTab();
     }
 

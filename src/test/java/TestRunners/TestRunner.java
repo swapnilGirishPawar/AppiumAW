@@ -13,7 +13,7 @@ import io.cucumber.testng.*;
 
         dryRun = false
 
-        ,tags = "@Smoke"
+        ,tags = "@Navigation"
 
         ,plugin = {"pretty", "html:test-output/OtherReports/jsonReports.html",
                    "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"}
