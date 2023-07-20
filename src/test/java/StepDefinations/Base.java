@@ -92,7 +92,6 @@ public class Base {
                 options.setApp(System.getProperty("user.dir")+appPath);
                 options.setAutomationName(automationName);
                 driver = new IOSDriver(new URL(appiumUrl), options);
-                System.out.println("iOS app launched in Simulator");
 
             } else if (deviceType.equalsIgnoreCase("real Device") && platformName.equalsIgnoreCase("iOS")) {
                 // capabilities for launching the real device :-
@@ -102,7 +101,6 @@ public class Base {
                 options.setApp(System.getProperty("user.dir")+appPath);
                 options.setAutomationName(automationName);
                 driver = new IOSDriver(new URL(appiumUrl), options);
-                System.out.println("iOS app launched in real device");
             }
     }
 //    @AfterStep
@@ -127,12 +125,10 @@ public class Base {
     public static void beforeAl() throws IOException {
         stopwatch.start();
         launchApplication();
-        System.out.println("BeforeAll :-App launched");
     }
     @AfterAll
     public static void afterAll(){
         service.stop();
-        System.out.println("App terminated successfully");
         stopAndResetStopwatch(stopwatch);
     }
 

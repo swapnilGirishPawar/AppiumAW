@@ -7,22 +7,24 @@ public class Stopwatch {
     private boolean running;
 
     public void start() {
+        try {
         if (!running) {
             startTime = System.currentTimeMillis();
             running = true;
-            System.out.println("Stopwatch started.");
-        } else {
-            System.out.println("Stopwatch is already running.");
         }
+    } catch (Exception e){
+        e.printStackTrace();
+    }
     }
 
     public void stop() {
+        try {
         if (running) {
             stopTime = System.currentTimeMillis();
             running = false;
-            System.out.println("Stopwatch stopped.");
-        } else {
-            System.out.println("Stopwatch is not running.");
+        }
+        } catch (Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -36,7 +38,10 @@ public class Stopwatch {
 
     public static void printElapsedTime(Stopwatch stopwatch){
         long elapsedTime = stopwatch.getElapsedTime();
-        System.out.println("Elapsed Time: " + elapsedTime + " seconds");
+        int minutes = (int) (elapsedTime / 60);
+        int remainingSeconds = (int) (elapsedTime % 60);
+        System.out.println("Elapsed Time: " + minutes + " minutes and " + remainingSeconds + " seconds");
+        CommonMethods.addLogToReport("Elapsed Time: " + minutes + " minutes and " + remainingSeconds + " seconds");
     }
 
     public static void stopAndResetStopwatch(Stopwatch stopwatch){
@@ -49,7 +54,6 @@ public class Stopwatch {
         startTime = 0;
         stopTime = 0;
         running = false;
-        System.out.println("Stopwatch reset.");
     }
 
 

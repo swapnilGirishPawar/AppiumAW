@@ -26,7 +26,6 @@ public class ProductSteps {
     @When("user add {int} quantity of product")
     public void user_add_quantity_of_product(int int1) throws InterruptedException {
         productPage.clicksOnCounterAddButton();
-        System.out.println("here");
     }
 
     @When("user clicks on add to cart button")

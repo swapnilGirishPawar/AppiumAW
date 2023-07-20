@@ -33,7 +33,6 @@ public class LoginSteps {
     @When("user clicks on Login button")
     public void user_clicks_on_login_button() throws InterruptedException {
         loginPage.clickOnLoginButton();
-        System.out.println("here");
     }
 
     @When("user clicks on Log Out button")
