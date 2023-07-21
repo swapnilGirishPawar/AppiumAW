@@ -61,17 +61,18 @@ public class Base {
     public static AppiumDriverLocalService startServer(){
         Boolean flag = checkIfServerIsRunning(4723);
         if(!flag){
-            service = AppiumDriverLocalService.buildDefaultService();
-            service.start();
-
-//            AppiumServiceBuilder builder = new AppiumServiceBuilder();
-//            builder
-//                    .withAppiumJS(new File("/usr/local/lib/node_modules/appium/build/lib/main.js"))
-//                    .usingDriverExecutable(new File("/usr/local/bin/node"))
-//                    .usingPort(4723)
-//                    .withLogFile(new File("test-output/AppiumLogs/"+"AppiumLog.txt"));
-//            service =  AppiumDriverLocalService.buildService(builder);
+//            service = AppiumDriverLocalService.buildDefaultService();
 //            service.start();
+
+            AppiumServiceBuilder builder = new AppiumServiceBuilder();
+            builder
+                    .withAppiumJS(new File("/usr/local/lib/node_modules/appium/build/lib/main.js"))
+                    .usingDriverExecutable(new File("/usr/local/bin/node"))
+                    .usingPort(4723)
+                    .withArgument(GeneralServerFlag.USE_PLUGINS, "element-wait@2.0.3")
+                    .withLogFile(new File("test-output/AppiumLogs/"+"AppiumLog.txt"));
+            service =  AppiumDriverLocalService.buildService(builder);
+            service.start();
         }
         return service;
     }
