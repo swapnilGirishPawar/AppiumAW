@@ -39,7 +39,6 @@ public class CatalogPage extends Base {
     public void navigateTillProduct() throws InterruptedException {
 //        CommonMethods.swipeUtilTextVisible((driver.findElement(productNumber6)).getText());
         CommonMethods.scrollUntilElement(productNumber6);
-        Thread.sleep(1500);
     }
 
     public static void clickOnProduct(By Element){

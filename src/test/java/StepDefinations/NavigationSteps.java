@@ -22,6 +22,5 @@ public class NavigationSteps {
     @Then("user lands on cart page")
     public void user_lands_on_cart_page() {
         cartPage.cartPageIsEmpty();
-        System.out.println("Done");
     }
 }

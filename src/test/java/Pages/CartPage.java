@@ -17,16 +17,11 @@ public class CartPage extends Base {
     private final By ProductPageCounterAmount = By.xpath(props.getProperty("ProductPageCounterAmount"));
 
 public void userOnEmptyCartPage(){
-    if(driver.findElement(cartPageText).isDisplayed()){
-        System.out.println("user is on cart page");
-    }
+    driver.findElement(cartPageText).isDisplayed();
 }
 
 public void cartPageIsEmpty(){
-    if(driver.findElement(cartPageText).isDisplayed()){
-        System.out.println("cart page is empty");
-    }
-    else System.out.println("there is something on page");
+    driver.findElement(cartPageText).isDisplayed();
 }
 public void quantityVisibleInCart(int count) throws Throwable {
         CommonMethods.isElementDisplayed(ProductPageCounterAmount);

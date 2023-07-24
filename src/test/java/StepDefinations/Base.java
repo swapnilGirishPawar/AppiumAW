@@ -1,6 +1,7 @@
 package StepDefinations;
 
 
+import Utils.Stopwatch;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.options.XCUITestOptions;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -20,12 +21,16 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
 
+import static Utils.Stopwatch.printElapsedTime;
+import static Utils.Stopwatch.stopAndResetStopwatch;
+
 public class Base {
     public static InputStream file;
     public static IOSDriver driver;
     public static AppiumDriverLocalService service;
     protected static Properties props = new Properties();
     protected static SoftAssert soft = new SoftAssert();
+    static Stopwatch stopwatch = new Stopwatch();
 
     public static void fileLoader(String filePath) throws IOException {
         file = Files.newInputStream(Paths.get(filePath));
@@ -56,17 +61,18 @@ public class Base {
     public static AppiumDriverLocalService startServer(){
         Boolean flag = checkIfServerIsRunning(4723);
         if(!flag){
-            service = AppiumDriverLocalService.buildDefaultService();
-            service.start();
-
-//            AppiumServiceBuilder builder = new AppiumServiceBuilder();
-//            builder
-//                    .withAppiumJS(new File("/usr/local/lib/node_modules/appium/build/lib/main.js"))
-//                    .usingDriverExecutable(new File("/usr/local/bin/node"))
-//                    .usingPort(4723)
-//                    .withLogFile(new File("test-output/AppiumLogs/"+"AppiumLog.txt"));
-//            service =  AppiumDriverLocalService.buildService(builder);
+//            service = AppiumDriverLocalService.buildDefaultService();
 //            service.start();
+
+            AppiumServiceBuilder builder = new AppiumServiceBuilder();
+            builder
+                    .withAppiumJS(new File("/usr/local/lib/node_modules/appium/build/lib/main.js"))
+                    .usingDriverExecutable(new File("/usr/local/bin/node"))
+                    .usingPort(4723)
+                    .withArgument(GeneralServerFlag.USE_PLUGINS, "element-wait@2.0.3")
+                    .withLogFile(new File("test-output/AppiumLogs/"+"AppiumLog.txt"));
+            service =  AppiumDriverLocalService.buildService(builder);
+            service.start();
         }
         return service;
     }
@@ -87,7 +93,6 @@ public class Base {
                 options.setApp(System.getProperty("user.dir")+appPath);
                 options.setAutomationName(automationName);
                 driver = new IOSDriver(new URL(appiumUrl), options);
-                System.out.println("iOS app launched in Simulator");
 
             } else if (deviceType.equalsIgnoreCase("real Device") && platformName.equalsIgnoreCase("iOS")) {
                 // capabilities for launching the real device :-
@@ -97,7 +102,6 @@ public class Base {
                 options.setApp(System.getProperty("user.dir")+appPath);
                 options.setAutomationName(automationName);
                 driver = new IOSDriver(new URL(appiumUrl), options);
-                System.out.println("iOS app launched in real device");
             }
     }
 //    @AfterStep
@@ -120,13 +124,13 @@ public class Base {
     }
     @BeforeAll
     public static void beforeAl() throws IOException {
+        stopwatch.start();
         launchApplication();
-        System.out.println("BeforeAll :-App launched");
     }
     @AfterAll
     public static void afterAll(){
         service.stop();
-        System.out.println("App terminated successfully");
+        stopAndResetStopwatch(stopwatch);
     }
 
 

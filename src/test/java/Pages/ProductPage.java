@@ -13,47 +13,49 @@ public class ProductPage extends Base {
     private final By counterAmount = By.xpath(props.getProperty("counterAmount"));
     private final By addToCartButton = By.xpath(props.getProperty("addToCartButton"));
 
-    public void clicksOnCounterAddButton(int count){
+    public void clicksOnCounterAddButton(int count) {
         String counter = driver.findElement(counterAmount).getText();
-        for (int i = 0; i <=count; i++) {
-            System.out.println("Counting ");
-            CommonMethods.addLogToReport("Loop Count:- "+i+" Counter:- "+counter);
+        for (int i = 0; i <= count; i++) {
+            CommonMethods.addLogToReport("Loop Count:- " + i + " Counter:- " + counter);
             CommonMethods.clickOnElement(counterPlusButton);
         }
     }
 
     public void clicksOnCounterAddButton() throws InterruptedException {
-        if(driver.findElement(counterPlusButton).isDisplayed()) {
-            CommonMethods.clickOnElement(counterPlusButton);
-        }
-        else {
-            System.out.println("Element not displayed");
+        try {
+            if (driver.findElement(counterPlusButton).isDisplayed()) {
+                CommonMethods.clickOnElement(counterPlusButton);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
-    public void clicksOnCounterMinusButton(){
+
+    public void clicksOnCounterMinusButton() {
         int count = Integer.parseInt(driver.findElement(counterAmount).getText());
-        if(driver.findElement(counterMinusButton).isDisplayed()) {
-            for (int i = 0; i < count; i++) {
-                CommonMethods.clickOnElement(counterMinusButton);
+        try {
+            if (driver.findElement(counterMinusButton).isDisplayed()) {
+                for (int i = 0; i < count; i++) {
+                    CommonMethods.clickOnElement(counterMinusButton);
+                }
             }
-        }
-        else {
-            System.out.println("Element not displayed");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     public void clickOnAddToCartButton() throws InterruptedException {
-        if(driver.findElement(addToCartButton).isDisplayed()) {
-            Thread.sleep(500);
-            CommonMethods.sendKeysEnter(addToCartButton);
-        }
-        else {
-            System.out.println("Element not displayed");
+        try {
+            if (driver.findElement(addToCartButton).isDisplayed()) {
+                CommonMethods.sendKeysEnter(addToCartButton);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
 
-    public ProductPage(IOSDriver driver){
+    public ProductPage(IOSDriver driver) {
         Base.driver = driver;
     }
 }
